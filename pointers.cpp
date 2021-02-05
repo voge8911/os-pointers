@@ -18,8 +18,19 @@ int main(int argc, char **argv)
 {
     Student student;
     double average;
+    std::string id_string = "Please enter the student's id number: ";
+    //std::string firstname_string = "Please enter the student's first name: ";
+    //std::string lastname_string = "Please enter the student's last name: ";
+    std::string n_assignments_string = "Please enter the how many assignments were graded: ";
 
     // Sequence of user input -> store in fields of `student`
+    promptInt(id_string,0,9);
+    std::cout << "HERE";
+    std::cout << "Please enter the student's first name: ";
+    scanf("%c", student.f_name);
+    std::cout << "Please enter the student's last name: ";
+    scanf("%c", student.l_name);
+    promptInt(n_assignments_string,0,2147483646); //n_assignments is less than 2,147,483,647
 
     // Call `CalculateStudentAverage(???, ???)`
     // Output `average`
@@ -35,6 +46,11 @@ int main(int argc, char **argv)
 int promptInt(std::string message, int min, int max)
 {
     // Code to prompt user for an int
+    int input;
+    std::cout << message;
+    scanf("%d", input);
+    //std::cin >> input;
+    return input; 
 }
 
 /*
@@ -45,6 +61,10 @@ int promptInt(std::string message, int min, int max)
 double promptDouble(std::string message, double min, double max)
 {
     // Code to prompt user for a double
+    double input;
+    std::cout << message;
+    scanf("%f", input);
+    return input; 
 }
 
 /*
@@ -54,4 +74,5 @@ double promptDouble(std::string message, double min, double max)
 void calculateStudentAverage(void *object, double *avg)
 {
     // Code to calculate and store average grade
+
 }
