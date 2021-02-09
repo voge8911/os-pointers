@@ -41,10 +41,10 @@ int main(int argc, char **argv)
     {
         student.grades[i] = promptDouble("Please enter grade for assignment " + std::to_string(i) + ": ",0,1000.0);
     }
-    std::cout << "\n";
+    std::cout << std::endl;
     //print out students name and id
     std::cout << "Student: " << student.f_name <<" "<< student.l_name <<" ["<< student.id << "]";
-    std::cout << "\n";
+    std::cout << std::endl;
 
     // Call `CalculateStudentAverage(???, ???)`
     calculateStudentAverage(&student, &average);
