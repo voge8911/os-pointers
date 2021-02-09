@@ -24,33 +24,41 @@ int main(int argc, char **argv)
 
     student.f_name = new char[128];
     student.l_name = new char[128];
+    student.grades = new double[134217728];
     
     // Sequence of user input -> store in fields of `student`
-    student.id = promptInt(id_message,0,9);
+   
+    student.id = promptInt(id_message,0,1000000000);
+ 
+    
     std::cout << "Please enter the student's first name: ";
+    
     std::cin >> student.f_name;
     std::cout << "Please enter the student's last name: ";
+    
     std::cin >> student.l_name;
-    student.n_assignments = promptInt(n_assignments_message,0,2147483646); //n_assignments is less than 2,147,483,647
-    std::cout << "\n";
+    std::cin.ignore();
+    student.n_assignments = promptInt(n_assignments_message,1,134217728); 
+    std::cout << std::endl;
 
     student.grades = new double[student.n_assignments];
 
     for (int i=0; i < student.n_assignments; i++)
     {
-        std::string message = "Please enter grade for assignment " + std::to_string(i) + ": ";
-        student.grades[i] = promptDouble(message,0,1000);
+        student.grades[i] = promptDouble("Please enter grade for assignment " + std::to_string(i) + ": ",0,1000.0);
     }
     std::cout << "\n";
 
     //print out students name and id
     std::cout << "Student: " << student.f_name <<" "<< student.l_name <<" ["<< student.id << "]";
+    std::cout << "\n";
 
     // Call `CalculateStudentAverage(???, ???)`
-    calculateStudentAverage(student.grades, &average);
+    calculateStudentAverage(&student, &average);
 
     // Output `average`
-    std::cout << "    Average grade: " << average;
+    printf("  Average grade: %0.1f", average);
+    std::cout << "\n";
     return 0;
 }
 
@@ -61,12 +69,49 @@ int main(int argc, char **argv)
 */
 int promptInt(std::string message, int min, int max)
 {
-    // Code to prompt user for an int
-    int input;
-    std::cout << message;
-    scanf("%d", &input);
-    //std::cin >> input;
-    return input; 
+    // Code to prompt user for an int and catch data type errors
+    std::string input;
+    bool is_character;
+    int input_to_int;
+    while (1)
+    {
+        std::cout << message;
+        std::getline(std::cin, input);
+        if (input.empty())
+        {
+            continue;
+        }
+        // go through each character, checking for chars
+        // set bool to true if char found
+        for (int i = 0; i < input.length(); i++)
+        {
+            is_character = false;
+            try
+            {
+                std::stoi(input.substr(i, i + 1));
+            }
+            catch (const std::invalid_argument e)
+            {
+                is_character = true;
+                break;
+            }
+        }
+        if (is_character)
+        {
+            std::cout << "Sorry, I cannot understand your answer" << std::endl;
+            std::cin.clear();
+            continue;
+        }
+        input_to_int = std::stoi(input);
+        if (input_to_int < min || input_to_int > max)
+        {
+            std::cout << "Sorry, I cannot understand your answer" << std::endl;
+            std::cin.clear();
+            continue;
+        }
+        break;
+    }
+    return input_to_int;
 }
 
 /*
@@ -76,11 +121,54 @@ int promptInt(std::string message, int min, int max)
 */
 double promptDouble(std::string message, double min, double max)
 {
-    // Code to prompt user for a double
-    double input;
-    std::cout << message;
-    scanf("%lf", &input);
-    return input; 
+    // Code to prompt user for an double and catch data type errors
+    std::string input;
+    bool is_character;
+    double input_to_double;
+    while (1)
+    {
+        std::cout << message;
+        std::getline(std::cin, input);
+        if (input.empty())
+        {
+            continue;
+        }
+        // go through each character, checking for chars
+        // set bool to true if char found
+        for (int i = 0; i < input.length(); i++)
+        {
+            is_character = false;
+            std::cout<<input.substr(i, i + 1) << std::endl;
+            try
+            {
+                if (input.substr(i, i+1).compare("."))
+                {
+                    continue;
+                }
+                std::stoi(input.substr(i, i + 1));
+            }
+            catch (const std::invalid_argument e)
+            {
+                is_character = true;
+                break;
+            }
+        }
+        if (is_character)
+        {
+            std::cout << "Sorry, I cannot understand your answer" << std::endl;
+            std::cin.clear();
+            continue;
+        }
+        input_to_double = std::stod(input);
+        if (input_to_double < min || input_to_double > max)
+        {
+            std::cout << "Sorry, I cannot understand your answer" << std::endl;
+            std::cin.clear();
+            continue;
+        }
+        break;
+    }
+    return input_to_double;
 }
 
 /*
@@ -89,8 +177,12 @@ double promptDouble(std::string message, double min, double max)
 */
 void calculateStudentAverage(void *object, double *avg)
 {
+    Student new_student = *((Student *)object);
+
     // Code to calculate and store average grade
-    
-
-
+    for (int i = 0; i < new_student.n_assignments; i++)
+    {
+        *avg += new_student.grades[i];
+    }
+    *avg = *avg / new_student.n_assignments;
 }
