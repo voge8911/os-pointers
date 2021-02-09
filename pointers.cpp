@@ -18,37 +18,30 @@ int main(int argc, char **argv)
 {
     Student student;
     double average;
-
-    std::string id_message = "Please enter the student's id number: ";
-    std::string n_assignments_message = "Please enter how many assignments were graded: ";
-
+    // allocate memory for student fields
     student.f_name = new char[128];
     student.l_name = new char[128];
     student.grades = new double[134217728];
     
-    // Sequence of user input -> store in fields of `student`
-   
-    student.id = promptInt(id_message,0,1000000000);
+    // Sequence of user input -> store in fields of `student`  
+    student.id = promptInt("Please enter the student's id number: ",0,1000000000);
  
-    
     std::cout << "Please enter the student's first name: ";
-    
     std::cin >> student.f_name;
+
     std::cout << "Please enter the student's last name: ";
-    
     std::cin >> student.l_name;
     std::cin.ignore();
-    student.n_assignments = promptInt(n_assignments_message,1,134217728); 
+
+    student.n_assignments = promptInt("Please enter how many assignments were graded: ",1,134217728); 
     std::cout << std::endl;
 
     student.grades = new double[student.n_assignments];
-
     for (int i=0; i < student.n_assignments; i++)
     {
         student.grades[i] = promptDouble("Please enter grade for assignment " + std::to_string(i) + ": ",0,1000.0);
     }
     std::cout << "\n";
-
     //print out students name and id
     std::cout << "Student: " << student.f_name <<" "<< student.l_name <<" ["<< student.id << "]";
     std::cout << "\n";
@@ -75,34 +68,41 @@ int promptInt(std::string message, int min, int max)
     int input_to_int;
     while (1)
     {
+        // print message
         std::cout << message;
+        // get input as a string
         std::getline(std::cin, input);
+        // if user inputs nothing, prompt again
         if (input.empty())
         {
             continue;
         }
-        // go through each character, checking for chars
-        // set bool to true if char found
+        // go through each character of input, checking for data type errors
         for (int i = 0; i < input.length(); i++)
         {
             is_character = false;
+            // try input to integer conversion
             try
             {
-                std::stoi(input.substr(i, i + 1));
+                std::stoi(input.substr(i, i+1));
             }
+            // if conversion fails, input must be wrong data type
             catch (const std::invalid_argument e)
             {
                 is_character = true;
                 break;
             }
         }
+        // error check if input was wrong data type
         if (is_character)
         {
             std::cout << "Sorry, I cannot understand your answer" << std::endl;
             std::cin.clear();
             continue;
         }
+        // can now safely convert input to double
         input_to_int = std::stoi(input);
+        // error check if input is within min and max
         if (input_to_int < min || input_to_int > max)
         {
             std::cout << "Sorry, I cannot understand your answer" << std::endl;
@@ -127,39 +127,45 @@ double promptDouble(std::string message, double min, double max)
     double input_to_double;
     while (1)
     {
+        // print message and get input
         std::cout << message;
         std::getline(std::cin, input);
+        // if user inputs nothing, prompt again
         if (input.empty())
         {
             continue;
         }
-        // go through each character, checking for chars
-        // set bool to true if char found
+        // go through each character of user input, checking for data type errors
         for (int i = 0; i < input.length(); i++)
         {
             is_character = false;
-            std::cout<<input.substr(i, i + 1) << std::endl;
+            // try input to double conversion
             try
             {
-                if (input.substr(i, i+1).compare("."))
+                // decimal point is valid character, as input should be of type double
+                if (input.substr(i, i+1).compare(".") == 0)
                 {
                     continue;
                 }
-                std::stoi(input.substr(i, i + 1));
+                std::stod(input.substr(i, i+1));
             }
+            // if conversion fails, input must be wrong data type
             catch (const std::invalid_argument e)
             {
                 is_character = true;
                 break;
             }
         }
+        // error check if input was wrong data type
         if (is_character)
         {
             std::cout << "Sorry, I cannot understand your answer" << std::endl;
             std::cin.clear();
             continue;
         }
+        // can now safely convert input to double
         input_to_double = std::stod(input);
+        // error check if input is within min and max
         if (input_to_double < min || input_to_double > max)
         {
             std::cout << "Sorry, I cannot understand your answer" << std::endl;
