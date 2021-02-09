@@ -22,17 +22,13 @@ int main(int argc, char **argv)
     student.f_name = new char[128];
     student.l_name = new char[128];
     student.grades = new double[134217728];
-    
     // Sequence of user input -> store in fields of `student`  
     student.id = promptInt("Please enter the student's id number: ",0,1000000000);
- 
     std::cout << "Please enter the student's first name: ";
     std::cin >> student.f_name;
-
     std::cout << "Please enter the student's last name: ";
     std::cin >> student.l_name;
     std::cin.ignore();
-
     student.n_assignments = promptInt("Please enter how many assignments were graded: ",1,134217728); 
     std::cout << std::endl;
 
@@ -44,7 +40,6 @@ int main(int argc, char **argv)
     std::cout << std::endl;
     // Call `CalculateStudentAverage(???, ???)`
     calculateStudentAverage(&student, &average);
-
     // Output student info and `average`
     std::cout << "Student: " << student.f_name <<" "<< student.l_name <<" ["<< student.id << "]" << std::endl;
     printf("  Average grade: %0.1f", average);
