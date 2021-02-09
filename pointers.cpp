@@ -95,7 +95,7 @@ int promptInt(std::string message, int min, int max)
         // can now safely convert input to double
         input_to_int = std::stoi(input);
         // error check if input is within min and max
-        if (input_to_int < min || input_to_int > max)
+        if (input_to_int < min || input_to_int >= max)
         {
             std::cout << "Sorry, I cannot understand your answer" << std::endl;
             std::cin.clear();
@@ -158,7 +158,7 @@ double promptDouble(std::string message, double min, double max)
         // can now safely convert input to double
         input_to_double = std::stod(input);
         // error check if input is within min and max
-        if (input_to_double < min || input_to_double > max)
+        if (input_to_double < min || input_to_double >= max)
         {
             std::cout << "Sorry, I cannot understand your answer" << std::endl;
             std::cin.clear();
