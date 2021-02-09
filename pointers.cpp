@@ -42,14 +42,11 @@ int main(int argc, char **argv)
         student.grades[i] = promptDouble("Please enter grade for assignment " + std::to_string(i) + ": ",0,1000.0);
     }
     std::cout << std::endl;
-    //print out students name and id
-    std::cout << "Student: " << student.f_name <<" "<< student.l_name <<" ["<< student.id << "]";
-    std::cout << std::endl;
-
     // Call `CalculateStudentAverage(???, ???)`
     calculateStudentAverage(&student, &average);
 
-    // Output `average`
+    // Output student info and `average`
+    std::cout << "Student: " << student.f_name <<" "<< student.l_name <<" ["<< student.id << "]" << std::endl;
     printf("  Average grade: %0.1f", average);
     std::cout << "\n";
     return 0;
@@ -184,7 +181,6 @@ double promptDouble(std::string message, double min, double max)
 void calculateStudentAverage(void *object, double *avg)
 {
     Student new_student = *((Student *)object);
-
     // Code to calculate and store average grade
     for (int i = 0; i < new_student.n_assignments; i++)
     {
